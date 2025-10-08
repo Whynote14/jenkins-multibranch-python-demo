@@ -3,19 +3,17 @@ pipeline {
     stages {
         stage('Install dependencies') {
             steps {
-                echo "📦 Installing dependencies..."
                 sh 'pip3 install -r requirements.txt'
             }
         }
-        stage('Run App') {
+        stage('Run Feature App') {
             steps {
-                echo "🚀 Running Python App (main branch)"
+                echo "🚀 Running Python App (feature branch)"
                 sh 'python3 app.py'
             }
         }
         stage('Run Tests') {
             steps {
-                echo "🧪 Running Unit Tests"
                 sh 'pytest test_app.py'
             }
         }
@@ -23,12 +21,12 @@ pipeline {
     post {
         success {
             sh 'curl -H "Content-Type: application/json" \
-                -X POST -d \'{"content": "✅ Build SUCCESS on *main* branch"}\' \
+                -X POST -d \'{"content": "✅ Build SUCCESS on *feature* branch"}\' \
                 https://discord.com/api/webhooks/1425459819413770261/9gv7psE61g9rJkNGwP3VgOJtnEB19tiRRqzjH8uP5llA8viXPk6KkEHlKrRunr0bfxYo'
         }
         failure {
             sh 'curl -H "Content-Type: application/json" \
-                -X POST -d \'{"content": "❌ Build FAILED on *main* branch"}\' \
+                -X POST -d \'{"content": "❌ Build FAILED on *feature* branch"}\' \
                 https://discord.com/api/webhooks/1425459819413770261/9gv7psE61g9rJkNGwP3VgOJtnEB19tiRRqzjH8uP5llA8viXPk6KkEHlKrRunr0bfxYo'
         }
     }
